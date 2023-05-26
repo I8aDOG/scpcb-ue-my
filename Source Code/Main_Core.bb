@@ -2701,6 +2701,7 @@ Function UpdateMoving%()
 			me\StaminaMax = Min(me\StaminaMax, 60.0)
 		EndIf
 		If wi\GasMask = 3 Lor wi\HazmatSuit = 3 Lor I_1499\Using = 2 Then me\Stamina = Min(100.0, me\Stamina + (100.0 - me\Stamina) * 0.002 * fps\Factor[0])
+		If wi\GasMask = 4 Lor wi\HazmatSuit = 4 Then me\Stamina = Min(100.0, me\Stamina + (100.0 - me\Stamina) * 0.01 * fps\Factor[0])
 	EndIf
 	
 	If me\Zombie
@@ -4347,7 +4348,7 @@ Function UpdateGUI%()
 						
 						me\CurrSpeed = CurveValue(0.0, me\CurrSpeed, 5.0)
 						
-						SelectedItem\State3 = Min(SelectedItem\State3 + (fps\Factor[0] / 1.6), 100.0)
+						SelectedItem\State3 = Min(SelectedItem\State3 + (fps\Factor[0] / 1.5), 100.0)
 						
 						If SelectedItem\State3 = 100.0
 							If SelectedItem\ItemTemplate\Sound <> 66 Then PlaySound_Strict(PickSFX[SelectedItem\ItemTemplate\Sound])
@@ -5330,7 +5331,7 @@ Function UpdateGUI%()
 										;[End Block]
 									Case "hazmatsuit148"
 										;[Block]
-										CreateMsg(GetLocalString("msg", "suit.on"))
+										CreateMsg(GetLocalString("msg", "suit.on.easy"))
 										wi\HazmatSuit = 4
 										;[End Block]
 								End Select
@@ -5430,7 +5431,7 @@ Function UpdateGUI%()
 										;[End Block]
 									Case "gasmask148"
 										;[Block]
-										CreateMsg(GetLocalString("msg", "mask.on"))
+										CreateMsg(GetLocalString("msg", "mask.on.easy"))
 										wi\GasMask = 4
 										;[End Block]
 								End Select
@@ -5899,7 +5900,7 @@ Function RenderHUD%()
 	If (PlayerRoom\RoomTemplate\Name = "dimension_106" And (EntityY(me\Collider) < 2000.0 * RoomScale Lor EntityY(me\Collider) > 2608.0 * RoomScale)) Lor I_714\Using > 0 Lor me\Injuries >= 1.5 Lor me\StaminaEffect > 1.0 Lor wi\HazmatSuit = 1 Lor wi\BallisticVest = 2 Lor I_409\Timer >= 55.0 Lor I_1025\State[0] > 0.0
 		Color(200, 0, 0)
 		Rect(x - (53 * MenuScale), y - (3 * MenuScale), 36 * MenuScale, 36 * MenuScale)
-	ElseIf chs\InfiniteStamina Lor me\StaminaEffect < 1.0 Lor wi\GasMask = 3 Lor I_1499\Using = 2 Lor wi\HazmatSuit = 3
+	ElseIf chs\InfiniteStamina Lor me\StaminaEffect < 1.0 Lor wi\GasMask >= 3 Lor I_1499\Using = 2 Lor wi\HazmatSuit >= 3
 		Color(0, 200, 0)
 		Rect(x - (53 * MenuScale), y - (3 * MenuScale), 36 * MenuScale, 36 * MenuScale)
 	EndIf
